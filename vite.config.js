@@ -13,13 +13,13 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  // css: {
-  //   preprocessorOptions: {
-  //     scss: {
-  //       silenceDeprecations: ["legacy-js-api"],
-  //     },
-  //   },
-  // },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        silenceDeprecations: ["legacy-js-api"],
+      },
+    },
+  },
   // 服务器
   server: {
     port: 9877,

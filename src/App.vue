@@ -1,9 +1,8 @@
 <script setup>
-import Background from './components/Background.vue';
 </script>
 
 <template>
-  <Background />
+  <router-view></router-view>
 </template>
 
 <style scoped>
