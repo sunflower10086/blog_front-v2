@@ -24,6 +24,14 @@ export const basicRoutes = [
         }
     },
     {
+        path: '/about',
+        name: 'about',
+        component: () => import('@/views/About.vue'),
+        meta: {
+            title: '关于'
+        }
+    },
+    {
         path: '/:catchAll(.*)',
         redirect: '/404/'
     },

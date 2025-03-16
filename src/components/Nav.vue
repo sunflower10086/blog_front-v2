@@ -24,7 +24,7 @@
               </div>
             </div>
           </div>
-          <div class="site-name" @click="router.go('/')">
+          <div class="site-name" @click="router.push('/')">
             {{ site.title }}
           </div>
         </div>
@@ -38,7 +38,7 @@
                     v-for="(child, childIndex) in item.items"
                     :key="childIndex"
                     class="link-child-btn"
-                    @click="router.go(child.link)"
+                    @click="router.push(child.link)"
                 >
                   <i v-if="child.icon" :class="`iconfont icon-${child.icon}`" />
                   {{ child.text }}
@@ -64,7 +64,7 @@
           <div
               class="menu-btn nav-btn"
               title="随机前往一篇文章"
-              @click="router.go(shufflePost(theme.postData))"
+              @click="router.push(shufflePost(theme.postData))"
           >
             <i class="iconfont icon-shuffle"></i>
           </div>
@@ -116,9 +116,9 @@
         </div>
       </div>
     </nav>
-<!--    &lt;!&ndash; 移动端菜单 &ndash;&gt;-->
-<!--    <MobileMenu />-->
-<!--    &lt;!&ndash; 全局搜索 &ndash;&gt;-->
+    <!-- 移动端菜单 -->
+    <MobileMenu />
+    <!-- 全局搜索 -->
 <!--    <ClientOnly>-->
 <!--      <Search v-if="theme.search.enable" />-->
 <!--    </ClientOnly>-->
@@ -131,6 +131,7 @@ import { useWebSiteStore } from "@/store";
 import { smoothScrolling, shufflePost } from "@/utils/helper";
 import {useRouter} from "vue-router";
 import { themeConfig } from "../assets/themeConfig.mjs";
+import MobileMenu from "@/components/MobileMenu.vue";
 
 const router = useRouter();
 const store = useWebSiteStore();

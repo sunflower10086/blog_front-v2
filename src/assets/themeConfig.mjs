@@ -6,9 +6,11 @@ export const themeConfig = {
   // 站点信息
   siteMeta: {
     // 站点标题
-    title: "Curve",
+    title: "我的个人博客",
     // 站点描述
-    description: "Hello World",
+    description: "分享技术、生活和思考",
+    // 站点关键词
+    keywords: "博客,技术,编程,生活",
     // 站点logo
     logo: "/images/logo/logo.webp",
     // 站点地址
@@ -17,10 +19,10 @@ export const themeConfig = {
     lang: "zh-CN",
     // 作者
     author: {
-      name: "Admin",
+      name: "博主",
       cover: "/images/logo/logo.webp",
-      email: "114514@gmail.com",
-      link: "https://www.imsyy.top",
+      email: "admin@example.com",
+      link: "https://www.example.com",
     },
   },
   // 备案信息
@@ -141,7 +143,7 @@ export const themeConfig = {
       items: [
         { text: "畅所欲言", link: "/pages/message", icon: "chat" },
         { text: "致谢名单", link: "/pages/thanks", icon: "reward" },
-        { text: "关于本站", link: "/pages/about", icon: "contacts" },
+        { text: "关于本站", link: "/about", icon: "contacts", },
       ],
     },
   ],
@@ -240,30 +242,30 @@ export const themeConfig = {
   footer: {
     // 社交链接（请确保为偶数个）
     social: [
-      {
-        icon: "email",
-        link: "mailto:one@imsyy.top",
-      },
+      // {
+      //   icon: "email",
+      //   link: "mailto:one@imsyy.top",
+      // },
       {
         icon: "github",
-        link: "https://www.github.com/imsyy/",
+        link: "https://www.github.com/sunflower10086/",
       },
-      {
-        icon: "telegram",
-        link: "https://t.me/bottom_user",
-      },
-      {
-        icon: "bilibili",
-        link: "https://space.bilibili.com/98544142",
-      },
-      {
-        icon: "qq",
-        link: "https://res.abeim.cn/api/qq/?qq=1539250352",
-      },
-      {
-        icon: "twitter-x",
-        link: "https://twitter.com/iimmsyy",
-      },
+      // {
+      //   icon: "telegram",
+      //   link: "https://t.me/bottom_user",
+      // },
+      // {
+      //   icon: "bilibili",
+      //   link: "https://space.bilibili.com/98544142",
+      // },
+      // {
+      //   icon: "qq",
+      //   link: "https://res.abeim.cn/api/qq/?qq=1539250352",
+      // },
+      // {
+      //   icon: "twitter-x",
+      //   link: "https://twitter.com/iimmsyy",
+      // },
     ],
     // sitemap
     sitemap: [
@@ -361,7 +363,7 @@ export const themeConfig = {
       // 倒计时日期
       data: {
         name: "春节",
-        date: "2025-01-29",
+        date: "2026-02-17",
       },
     },
     // 站点数据

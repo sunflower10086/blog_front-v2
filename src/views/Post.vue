@@ -62,7 +62,7 @@
         <!-- 参考资料 -->
 <!--        <References />-->
         <!-- 版权 -->
-<!--        <Copyright v-if="frontmatter.copyright !== false" :postData="postMetaData" />-->
+        <Copyright v-if="frontmatter.copyright !== false" :postData="postMetaData" />
         <!-- 其他信息 -->
         <div class="other-meta">
           <div class="all-tags">
@@ -110,6 +110,7 @@ import ArticleGPT from "@/components/Aside/Widgets/ArticleGPT.vue";
 import {themeConfig} from "@/assets/themeConfig.mjs";
 import {useRouter} from "vue-router";
 import NextPost from "@/components/NextPost.vue";
+import Copyright from "@/components/Copyright.vue";
 
 const router = useRouter()
 

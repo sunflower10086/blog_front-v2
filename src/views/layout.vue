@@ -1,12 +1,12 @@
 <template>
   <!-- 背景图片 -->
-  <Background />
+  <!-- <Background /> -->
   <!-- 加载提示 -->
-  <Loading />
+  <!-- <Loading /> -->
   <!-- 中控台 -->
-  <Control />
+  <!-- <Control /> -->
   <!-- 导航栏 -->
-  <Nav />
+  <!-- <Nav /> -->
 
   <main :class="['mian-layout', { loading: loadingStatus, 'is-post': isPostPage }]">
     <Home v-if="route.path === '/'" showHeader />
@@ -18,6 +18,7 @@
       <Page v-else-if="route.path !== '/404'" />
     </template>
   </main>
+  
 </template>
 
 <script setup>
@@ -33,6 +34,10 @@ import {computed, onBeforeUnmount, onMounted, ref, watch} from "vue";
 import {calculateScroll, specialDayGray} from "@/utils/helper.mjs";
 import Home from "@/views/Home.vue";
 import Post from "@/views/Post.vue";
+import FooterLink from  '@/components/FooterLink.vue'
+import Footer from '@/components/Footer.vue';
+import Page from "@/views/Page.vue";
+import Settings from "@/components/Settings.vue";
 
 const route = useRoute();
 const webSiteStore = useWebSiteStore();
@@ -42,7 +47,7 @@ const { loadingStatus, footerIsShow, themeValue, themeType, backgroundType, font
     storeToRefs(webSiteStore);
 
 // 右键菜单
-// const rightMenuRef = ref(null);
+const rightMenuRef = ref(null);
 
 // 判断是否为文章页面
 const isPostPage = computed(() => {
@@ -59,9 +64,9 @@ const isHomePage = computed(() => {
 
 
 // 开启右键菜单
-// const openRightMenu = (e) => {
-//   rightMenuRef.value?.openRightMenu(e);
-// };
+const openRightMenu = (e) => {
+  rightMenuRef.value?.openRightMenu(e);
+};
 
 // 复制时触发
 const copyTip = () => {
