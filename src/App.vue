@@ -11,7 +11,7 @@ import RightMenu from '@/components/RightMenu.vue'
 import Message from "@/components/Message.vue";
 
 import {useRoute} from "vue-router";
-import {useWebSiteStore} from "@/store/index.js";
+import { useWebSiteStore, usePostStore } from "@/store/index.js";
 import {storeToRefs} from "pinia";
 import {themeConfig} from "@/assets/themeConfig.mjs";
 import {computed, onBeforeUnmount, onMounted, ref, watch} from "vue";
@@ -19,6 +19,8 @@ import {calculateScroll, specialDayGray} from "@/utils/helper.mjs";
 
 const route = useRoute();
 const webSiteStore = useWebSiteStore();
+const postStore = usePostStore()
+postStore.init()
 // const { frontmatter, page, theme } = useData();
 const theme = themeConfig
 const { loadingStatus, footerIsShow, themeValue, themeType, backgroundType, fontFamily, fontSize } =

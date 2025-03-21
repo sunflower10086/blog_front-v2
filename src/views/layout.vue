@@ -52,7 +52,6 @@ const rightMenuRef = ref(null);
 // 判断是否为文章页面
 const isPostPage = computed(() => {
   const routePath = decodeURIComponent(route.path);
-  console.log("isPostPage 当前路径：", routePath);
   return routePath.startsWith("/article/");
 });
 
@@ -87,7 +86,6 @@ const changeSiteThemeType = () => {
   };
   // 必要数据
   const htmlElement = document.documentElement;
-  console.log("当前模式：", themeType.value);
   // 清除所有 class
   Object.values(themeClasses).forEach((themeClass) => {
     htmlElement.classList.remove(themeClass);
@@ -133,7 +131,6 @@ watch(
 );
 
 onMounted(() => {
-  // console.log(frontmatter.value, page.value, theme.value);
   // 全站置灰
   specialDayGray();
   // 更改主题类别

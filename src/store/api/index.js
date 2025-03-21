@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { themeConfig } from '../assets/themeConfig.mjs'
+import { themeConfig } from '@/assets/themeConfig.mjs'
 import { ElNotification } from 'element-plus'
 
 // 创建axios实例

@@ -90,18 +90,19 @@ const bannerType = ref(null);
 
 // 获取一言数据
 const getHitokotoData = async () => {
-  try {
-    const result = await getHitokoto();
-    const { hitokoto, from, from_who } = result;
-    hitokotoData.value = { hitokoto, from, from_who };
-  } catch (error) {
-    ElNotification({
-      title: "error",
-      message: "一言获取失败",
-      type: "error",
-    })
-    console.error("一言获取失败：", error);
-  }
+  // try {
+  //   const result = await getHitokoto();
+  //   const { hitokoto, from, from_who } = result;
+  //   hitokotoData.value = { hitokoto, from, from_who };
+  // } catch (error) {
+  //   $message.error("一言获取失败")
+  //   ElNotification({
+  //     title: "error",
+  //     message: "一言获取失败",
+  //     type: "error",
+  //   })
+  //   console.error("一言获取失败：", error);
+  // }
 };
 
 // 滚动至首页

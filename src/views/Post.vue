@@ -144,31 +144,6 @@ const renderedContent = ref("# 我是h1")
 const md = new MarkdownIt();
 renderedContent.value = md.render("# 我是h1")
 
-// 获取文章详情
-const fetchPostDetail = async (postId) => {
-  // loading.value = true
-  //
-  // try {
-  //   // 处理路径，移除开头和结尾的斜杠
-  //   const postData = await getPostContent(postId)
-  //   // const content = "test content"
-  //   console.log(postData);
-  //   if (postData) {
-  //     postMetaData.value.title = postData.base_info.title
-  //     postMetaData.value.content = postData.content
-  //     // 渲染 Markdown 内容
-  //     renderedContent.value = md.render(postData.content)
-  //   } else {
-  //     console.error('获取文章详情失败')
-  //   }
-  // } catch (err) {
-  //   console.error('获取文章详情失败:', err)
-  // } finally {
-  //   loading.value = false
-  // }
-  console.log(postId)
-}
-
 // 在组件挂载时获取文章数据
 onMounted(() => {
   // if (page.value.relativePath) {

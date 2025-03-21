@@ -34,10 +34,10 @@
                 v-for="tags in item?.tags"
                 :key="tags"
                 class="tags-name"
-                @click.stop="router.go(`/pages/tags/${tags}`)"
+                @click.stop="router.push(`/pages/tags/${tags.id}`)"
             >
               <i class="iconfont icon-hashtag" />
-              {{ tags }}
+              {{ tags.name }}
             </span>
           </div>
           <span class="post-time">{{ formatTimestamp(item?.created_at) }}</span>
@@ -69,8 +69,6 @@ const props = defineProps({
     default: false,
   },
 });
-
-console.log("文章列表", props.listData)
 
 const theme= ref(themeConfig)
 

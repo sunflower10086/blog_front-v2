@@ -20,7 +20,6 @@ const frontmatter = {
   card: true
 }
 // const { frontmatter } = useData();
-console.log(frontmatter)
 </script>
 
 <style lang="scss" scoped>

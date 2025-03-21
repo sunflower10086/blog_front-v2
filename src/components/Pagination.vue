@@ -78,8 +78,6 @@ const props = defineProps({
   },
 });
 
-console.log("currPage", props.page)
-
 // 快速跳转数据
 const jumpInput = ref(null);
 const inputFocus = ref(false);

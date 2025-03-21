@@ -7,12 +7,12 @@
     </div>
     <div class="all-tags">
       <a
-        v-for="(item, tag, index) in theme.tagsData"
+        v-for="(item, index) in tagsData"
         :key="index"
-        :href="`/pages/tags/${tag}`"
+        :href="`/pages/tags/${item.id}`"
         class="tags"
       >
-        <span class="name">{{ tag }}</span>
+        <span class="name">{{ item.name }}</span>
         <sup class="num">{{ item.count }}</sup>
       </a>
     </div>
@@ -21,9 +21,16 @@
 </template>
 
 <script setup>
+import { usePostStore } from "@/store";
 import {themeConfig} from "@/assets/themeConfig.mjs";
-
+import { computed } from "vue";
 const theme = themeConfig
+const postStore = usePostStore()
+
+const tagsData = computed(() => {
+  console.log("tagsData", postStore.statTags)
+  return postStore.statTags
+})
 </script>
 
 <style lang="scss" scoped>

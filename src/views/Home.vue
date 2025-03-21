@@ -5,7 +5,9 @@
     <div class="home-content">
       <div class="posts-content">
         <!-- 分类总览 -->
-        <TypeBar :type="showTags ? 'tags' : 'categories'" />
+        <TypeBar :type="showTags ? 'tags' : 'categories'" 
+                @categoryChange="handleCategoryChange" 
+                @tagChange="handleTagChange" />
         <!-- 文章列表 -->
         <PostList :listData="postData" />
         <!-- 分页 -->
@@ -24,7 +26,7 @@
 </template>
 
 <script setup>
-import { useWebSiteStore } from "@/store";
+import { useWebSiteStore, usePostStore } from "@/store";
 import PostList from "../components/List/PostList.vue";
 import Pagination from "../components/Pagination.vue";
 import TypeBar from "../components/List/TypeBar.vue";
@@ -35,7 +37,9 @@ import {computed, nextTick, ref, watch} from "vue";
 
 const theme = ref(themeConfig)
 const postList = ref([])
-const webSiteStore = useWebSiteStore();
+const webSiteStore = useWebSiteStore(); 
+const postStore = usePostStore();
+
 const props = defineProps({
   // 显示首页头部
   showHeader: {
@@ -62,56 +66,52 @@ const props = defineProps({
 // 每页文章数
 const postSize = theme.value.postSize;
 const currPage = ref(1)
+const currentCategory = ref(0);
+const currentTag = ref(0);
 
 // 列表总数量
 const allListTotal = computed(() => {
-  // const data = props.showCategories
-  //     ? theme.value.categoriesData[props.showCategories]?.articles
-  //     : props.showTags
-  //         ? theme.value.tagsData[props.showTags]?.articles
-  //         : theme.value.postData;
-  // // 返回数量
-  // return data ? data.length : 0;
-  return 100
+  return postStore.total
 });
 
-// 获得当前页数
-const getCurrentPage = () => {
-  // if (props.showCategories || props.showTags) {
-  //   if (typeof window === "undefined") return 0;
-  //   const params = new URLSearchParams(window.location.search);
-  //   const page = params.get("page");
-  //   if (!page) return 0;
-  //   const currentPage = Number(page);
-  //   return currentPage ? currentPage - 1 : 0;
-  // }
-  // return props.page ? props.page - 1 : 0;
-  return 1
-};
-
 // 获取文章列表数据
-const getPostList = async (page = 1) => {
-  // try {
-  //   const params = {
-  //     page,
-  //     pageSize: postSize,
-  //     categoryId: props.showCategories || undefined,
-  //     tagId: props.showTags || undefined
-  //   };
-  //   const response = await axios.get('/api/posts', { params });
-  //   postList.value = response.data.list;
-  //   allListTotal.value = response.data.total;
-  // } catch (error) {
-  //   console.error('获取文章列表失败:', error);
-  // }
-  console.log("获取文章列表", page);
+const getPostList = async (page = 1, pageSize = 10) => {
+  await postStore.getPostList(page, pageSize, currentCategory.value, currentTag.value)
+  console.log("获取文章列表", page, "分类:", currentCategory.value, "标签:", currentTag.value);
 };
 
 // 监听页码变化
 const handlePageChange = (page) => {
   getPostList(page);
-
   currPage.value = page
+};
+
+// 处理分类点击事件
+const handleCategoryChange = (categoryId) => {
+  console.log("切换分类:", categoryId);
+  // 处理特殊情况：全部分类
+  if (categoryId === 'all') {
+    currentCategory.value = 0;
+  } else {
+    currentCategory.value = categoryId === 0 ? 0 : categoryId; // 空字符串表示首页，使用默认分类0
+  }
+  currentTag.value = 0; // 清空标签筛选
+  currPage.value = 1; // 重置页码
+  getPostList(1); // 获取第一页数据
+};
+
+// 处理标签点击事件
+const handleTagChange = (tagId) => {
+  console.log("切换标签:", tagId);
+  // 处理特殊情况：全部标签
+  if (tagId === 'all') {
+    currentTag.value = 0;
+  } else {
+    currentTag.value = tagId === 0 ? 0 : tagId; // 空字符串表示首页
+  }
+  currentCategory.value = 0; // 清空分类筛选
+  currPage.value = 1; // 重置页码
+  getPostList(1); // 获取第一页数据
 };
 
 // 初始化获取数据
@@ -119,118 +119,8 @@ getPostList(props.page);
 
 // 文章列表数据
 const postData = computed(() => {
-  // const page = getCurrentPage();
-  // console.log("当前页数：", page);
-  // let data = null;
-  // // 分类数据
-  // if (props.showCategories) {
-  //   data = theme.value.categoriesData[props.showCategories]?.articles;
-  // }
-  // // 标签数据
-  // else if (props.showTags) {
-  //   data = theme.value.tagsData[props.showTags]?.articles;
-  // }
-  // // 文章数据
-  // else {
-  //   data = theme.value.postData.posts;
-  // }
-  //
-  // // 返回列表
-  // return data ? data.slice(page * postSize, page * postSize + postSize) : [];
-  return [{
-    id: 1,
-    title: "标题",
-    cover: "",
-    tags: [1, 2,3],
-    description: "123",
-    createdAt: "asdasd",
-    updatedAt:"adasdasd ",
-    categoryId: 1
-  },{
-    id: 1,
-    title: "标题",
-    cover: "",
-    tags: [1, 2,3],
-    description: "123",
-    createdAt: "asdasd",
-    updatedAt:"adasdasd ",
-    categoryId: 1
-  },{
-    id: 1,
-    title: "标题",
-    cover: "",
-    tags: [1, 2,3],
-    description: "123",
-    createdAt: "asdasd",
-    updatedAt:"adasdasd ",
-    categoryId: 1
-  },{
-    id: 1,
-    title: "标题",
-    cover: "",
-    tags: [1, 2,3],
-    description: "123",
-    createdAt: "asdasd",
-    updatedAt:"adasdasd ",
-    categoryId: 1
-  },{
-    id: 1,
-    title: "标题",
-    cover: "",
-    tags: [1, 2,3],
-    description: "123",
-    createdAt: "asdasd",
-    updatedAt:"adasdasd ",
-    categoryId: 1
-  },{
-    id: 1,
-    title: "标题",
-    cover: "",
-    tags: [1, 2,3],
-    description: "123",
-    createdAt: "asdasd",
-    updatedAt:"adasdasd ",
-    categoryId: 1
-  },{
-    id: 1,
-    title: "标题",
-    cover: "",
-    tags: [1, 2,3],
-    description: "123",
-    createdAt: "asdasd",
-    updatedAt:"adasdasd ",
-    categoryId: 1
-  },{
-    id: 1,
-    title: "标题",
-    cover: "",
-    tags: [1, 2,3],
-    description: "123",
-    createdAt: "asdasd",
-    updatedAt:"adasdasd ",
-    categoryId: 1
-  },{
-    id: 1,
-    title: "标题",
-    cover: "",
-    tags: [1, 2,3],
-    description: "123",
-    createdAt: "asdasd",
-    updatedAt:"adasdasd ",
-    categoryId: 1
-  },{
-    id: 1,
-    title: "标题",
-    cover: "",
-    tags: [1, 2,3],
-    description: "123",
-    createdAt: "asdasd",
-    updatedAt:"adasdasd ",
-    categoryId: 1
-  }]
+  return postStore.postList
 });
-
-
 
 // 恢复滚动位置
 const restoreScrollY = (val) => {
