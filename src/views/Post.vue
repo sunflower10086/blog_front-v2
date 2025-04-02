@@ -13,17 +13,17 @@
             <span class="name">{{ item }}</span>
           </a>
         </div>
-        <div class="tags">
-          <a
-              v-for="(item, index) in postMetaData.tags"
-              :key="index"
-              :href="`/pages/tags/${item}`"
-              class="tag-item"
-          >
-            <i class="iconfont icon-hashtag" />
-            <span class="name">{{ item }}</span>
-          </a>
-        </div>
+<!--        <div class="tags">-->
+<!--          <a-->
+<!--              v-for="(item, index) in postMetaData.tags"-->
+<!--              :key="index"-->
+<!--              :href="`/pages/tags/${item}`"-->
+<!--              class="tag-item"-->
+<!--          >-->
+<!--            <i class="iconfont icon-hashtag" />-->
+<!--            <span class="name">{{ item }}</span>-->
+<!--          </a>-->
+<!--        </div>-->
       </div>
       <h1 class="title">
         {{ postMetaData.title || "未命名文章" }}
@@ -31,16 +31,16 @@
       <div class="other-meta">
         <span class="meta date">
           <i class="iconfont icon-date" />
-          {{ formatTimestamp(postMetaData.date) }}
+          {{ formatTimestamp(postMetaData.created_at) }}
         </span>
         <span class="update meta">
           <i class="iconfont icon-time" />
-          {{ formatTimestamp(page?.lastUpdated || postMetaData.lastModified) }}
+          {{ formatTimestamp(postMetaData.updated_at) }}
         </span>
         <!-- 热度 -->
         <span class="hot meta">
           <i class="iconfont icon-fire" />
-          <span id="twikoo_visitors" class="artalk-pv-count">0</span>
+          <span id="twikoo_visitors" class="artalk-pv-count">{{ postMetaData.views }}</span>
         </span>
         <!-- 评论数 -->
         <span class="chat meta hover" @click="commentRef?.scrollToComments">
@@ -62,18 +62,18 @@
         <!-- 参考资料 -->
 <!--        <References />-->
         <!-- 版权 -->
-        <Copyright v-if="frontmatter.copyright !== false" :postData="postMetaData" />
+        <!-- <Copyright v-if="frontmatter.copyright !== false" :postData="postMetaData" /> -->
         <!-- 其他信息 -->
         <div class="other-meta">
           <div class="all-tags">
             <a
                 v-for="(item, index) in postMetaData.tags"
                 :key="index"
-                :href="`/pages/tags/${item}`"
+                :href="`/pages/tags/${item.id}`"
                 class="tag-item"
             >
               <i class="iconfont icon-hashtag" />
-              <span class="name">{{ item }}</span>
+              <span class="name">{{ item.name }}</span>
             </a>
           </div>
           <a
@@ -101,9 +101,9 @@
 <script setup>
 import { formatTimestamp } from "@/utils/helper";
 import initFancybox from "@/utils/initFancybox";
-import { ref, onMounted } from 'vue';
+import {ref, onMounted, onBeforeMount} from 'vue';
 import Aside from '@/components/Aside/index.vue'
-// import { getPostContent } from '../utils/getPostData.mjs'
+import { usePostStore } from "@/store/index.js";
 import loading from "../components/Loading.vue";
 import MarkdownIt from 'markdown-it';
 import ArticleGPT from "@/components/Aside/Widgets/ArticleGPT.vue";
@@ -113,50 +113,36 @@ import NextPost from "@/components/NextPost.vue";
 import Copyright from "@/components/Copyright.vue";
 
 const router = useRouter()
-
-const theme = ref(themeConfig)
-const page = {
-  id: 1,
-  title: "标题",
-  cover: "",
-  tags: [1, 2,3],
-  description: "123",
-  createdAt: "asdasd",
-  updatedAt:"adasdasd ",
-  categoryId: 1
-}
-
-// const { frontmatter } = useData();
-
-// 评论元素
-const commentRef = ref(null);
-
-const postMetaData = ref({
-  title: "test",
-  content: "test content"
-})
+const postStore = usePostStore()
 
 // 渲染后的 Markdown 内容
-const renderedContent = ref("# 我是h1")
-
+const renderedContent = ref("")
 
 // 初始化 markdown-it
 const md = new MarkdownIt();
-renderedContent.value = md.render("# 我是h1")
 
-// 在组件挂载时获取文章数据
-onMounted(() => {
-  // if (page.value.relativePath) {
-  //   let postId = getPostId(page.value.relativePath)
-  //   // 使用 page.relativePath 作为文章标识
-  //   fetchPostDetail(postId)
-  // } else {
-  //   router.go('/404')
-  // }
+// 评论元素
+const commentRef = ref(null);
+const postMetaData = ref(null)
+
+// 获取文章数据
+const getPostDetail = async () => {
+  const postId = router.currentRoute.value.params.post_id
+  await postStore.getPostDetail(postId)
+  
+  // 已确认 postStore.currentPost 一定会有值
+  postMetaData.value = postStore.currentPost
+  
+  // 渲染文章内容
+  renderedContent.value = md.render(postStore.currentPost.content)
+}
+
+onBeforeMount(async () => {
+  await getPostDetail()
 })
 
 onMounted(() => {
-  initFancybox(theme.value);
+  initFancybox(themeConfig);
 });
 </script>
 

@@ -64,13 +64,27 @@ export const usePostStore = defineStore("post", {
         },
         
         async getPostDetail(post_id) {
-            const res = await getPostDetail(post_id)    
+            const res = await getPostDetail(post_id)
+            console.log("getPostDetail", res)
             if (res.code !== 200) {
                 $message.error(res.message)
                 return
             }
 
-            this.currentPost = res.data
+            let post = res.data
+            this.currentPost = {
+                id: post.base_info.id,
+                title: post.base_info.title,
+                cover: post.base_info.cover,
+                tags: post.base_info.tags.map(tagId => this.tagsMap[tagId] || '其他'),
+                description: post.base_info.description,
+                created_at: post.base_info.created_at,
+                updated_at: post.base_info.updated_at,
+                category_id: post.base_info.category_id,
+                views: post.base_info.views,
+                content: post.content,
+            }
+
         },
         async getCategoriesList() {
             const res = await getCategoriesList()
